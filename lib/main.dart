@@ -62,20 +62,24 @@ class BookList extends StatelessWidget {
       onDismissed: (direction) {
         Provider.of<BookListModel>(context, listen: false).remove(book);
       },
-      child: ListTile(
-        contentPadding: EdgeInsets.all(16.0),
-        title: Text(book.name, style: TextStyle(fontSize: 18.0)),
-        subtitle: Text(book.author),
-        trailing: IconButton(
-          icon: Icon(book.isFavorite ? Icons.favorite : Icons.favorite_border),
-          onPressed: () {
+      child: Column(children: [
+        ListTile(
+          contentPadding: EdgeInsets.all(16.0),
+          title: Text(book.name, style: TextStyle(fontSize: 18.0)),
+          subtitle: Text(book.author),
+          trailing: IconButton(
+            icon:
+                Icon(book.isFavorite ? Icons.favorite : Icons.favorite_border),
+            onPressed: () {
+              Provider.of<BookListModel>(context, listen: false).favorite(book);
+            },
+          ),
+          onLongPress: () {
             Provider.of<BookListModel>(context, listen: false).favorite(book);
           },
         ),
-        onLongPress: () {
-          Provider.of<BookListModel>(context, listen: false).favorite(book);
-        },
-      ),
+        Divider()
+      ]),
     );
   }
 
@@ -85,14 +89,11 @@ class BookList extends StatelessWidget {
 
     return ListView.builder(
       itemCount: _books.length * 2,
-      itemBuilder: (context, i) {
-        if (i.isOdd) return Divider();
-
-        final index = i ~/ 2;
-
+      itemBuilder: (context, index) {
         if (index < _books.length) {
           return _buildRow(_books[index], context, _books, index);
         }
+        return null;
       },
     );
   }
