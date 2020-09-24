@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Book Tracker',
         home: Scaffold(
-            appBar: AppBar(title: Text("Welcome to Books")),
+            appBar: AppBar(title: Text("Your Reading List")),
             body: Center(child: BookList()),
             floatingActionButton: Builder(
                 builder: (context) => FloatingActionButton(
@@ -47,14 +47,6 @@ class BookList extends StatelessWidget {
           color: Colors.red,
           child: Row(
             children: [
-              Padding(
-                padding: EdgeInsets.all(16),
-                child: Icon(
-                  Icons.delete_outline,
-                  color: Colors.white,
-                  size: 48,
-                ),
-              ),
               Spacer(),
               Padding(
                 padding: EdgeInsets.all(16),
@@ -64,6 +56,7 @@ class BookList extends StatelessWidget {
                   size: 48,
                 ),
               ),
+              Spacer()
             ],
           )),
       onDismissed: (direction) {
@@ -73,8 +66,12 @@ class BookList extends StatelessWidget {
         contentPadding: EdgeInsets.all(16.0),
         title: Text(book.name, style: TextStyle(fontSize: 18.0)),
         subtitle: Text(book.author),
-        trailing:
-            Icon(book.isFavorite ? Icons.favorite : Icons.favorite_border),
+        trailing: IconButton(
+          icon: Icon(book.isFavorite ? Icons.favorite : Icons.favorite_border),
+          onPressed: () {
+            Provider.of<BookListModel>(context, listen: false).favorite(book);
+          },
+        ),
         onLongPress: () {
           Provider.of<BookListModel>(context, listen: false).favorite(book);
         },
