@@ -72,6 +72,12 @@ class BookList extends StatelessWidget {
       child: ListTile(
         contentPadding: EdgeInsets.all(16.0),
         title: Text(book.name, style: TextStyle(fontSize: 18.0)),
+        subtitle: Text(book.author),
+        trailing:
+            Icon(book.isFavorite ? Icons.favorite : Icons.favorite_border),
+        onLongPress: () {
+          Provider.of<BookListModel>(context, listen: false).favorite(book);
+        },
       ),
     );
   }

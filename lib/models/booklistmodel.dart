@@ -16,10 +16,19 @@ class BookListModel extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void favorite(Book book) {
+    final index = _items.indexOf(book);
+    _items[index].isFavorite = !_items[index].isFavorite;
+
+    notifyListeners();
+  }
 }
 
 class Book {
   String name;
+  String author;
+  bool isFavorite = false;
 
-  Book(this.name);
+  Book(this.name, this.author);
 }
