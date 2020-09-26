@@ -51,8 +51,7 @@ class BookListModel extends ChangeNotifier {
 
     final Database db = await database;
 
-    db.insert('books', book.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    db.update('books', book.toMap(), where: 'name = ?', whereArgs: [book.name]);
 
     notifyListeners();
   }
